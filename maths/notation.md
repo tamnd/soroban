@@ -52,6 +52,10 @@ An arrow pointing left means assignment, exactly like `=` in python: compute the
 
 A centered dot is multiplication. Notation drops the symbol entirely when it can, so $wx$ means $w \cdot x$ means `w * x`.
 
+## The bars: $|x|$
+
+Vertical bars around a number mean its absolute value: the number with any minus sign stripped off, so $|3| = 3$ and $|-3| = 3$. Geometrically it is the distance from zero, which is never negative. Plotted against $x$, the function $y = |x|$ makes a V shape with its corner at the origin, and that V is the whole subject of lesson 0002, since it is the shortest function no straight line can fit.
+
 ## Greek letters you will meet
 
-Only a few, and each is a plain variable that happens to be Greek: $\eta$ (eta) sometimes names the learning rate in other books (this repo writes $\mathrm{lr}$ instead), $\sigma$ (small sigma) will name an activation function in lesson 0002, and $\Sigma$ (capital sigma) is the summation above. Greek letters carry no special powers; they exist because the Latin alphabet ran out.
+Only a few, and each is a plain variable that happens to be Greek: $\eta$ (eta) sometimes names the learning rate in other books (this repo writes $\mathrm{lr}$ instead), $\sigma$ (small sigma) conventionally names an [activation function](relu.md) in other books (the lessons write out names like relu instead), and $\Sigma$ (capital sigma) is the summation above. Greek letters carry no special powers; they exist because the Latin alphabet ran out.
