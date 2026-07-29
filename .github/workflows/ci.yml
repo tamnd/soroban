@@ -20,7 +20,7 @@ jobs:
       - name: test
         run: go test ./...
       - name: lesson runner
-        run: go run ./cmd/soroban list && go run ./cmd/soroban 0001
+        run: go run ./cmd/soroban list && go run ./cmd/soroban 0001 && go run ./cmd/soroban 0002
 
   python:
     runs-on: ubuntu-latest
@@ -29,13 +29,17 @@ jobs:
       - uses: astral-sh/setup-uv@v5
       - name: lesson 0001 asserts
         run: uv run lessons/0001-one-neuron/train.py
-      - name: lesson 0001 notebook executes clean
+      - name: lesson 0002 asserts
+        run: uv run lessons/0002-hidden-layer/train.py
+      - name: notebooks execute clean
         run: |
           uv run --extra notebook python -c "
           import nbformat, nbclient
-          nb = nbformat.read('lessons/0001-one-neuron/lesson.ipynb', as_version=4)
-          nbclient.NotebookClient(nb, timeout=300).execute()
-          print('notebook executed clean')
+          for path in ('lessons/0001-one-neuron/lesson.ipynb',
+                       'lessons/0002-hidden-layer/lesson.ipynb'):
+              nb = nbformat.read(path, as_version=4)
+              nbclient.NotebookClient(nb, timeout=300).execute()
+              print(path, 'executed clean')
           "
 
   cross-check:
@@ -51,3 +55,6 @@ jobs:
           uv run lessons/0001-one-neuron/train.py | head -6 > /tmp/py.out
           go run ./cmd/soroban 0001 > /tmp/go.out
           diff /tmp/py.out /tmp/go.out
+          uv run lessons/0002-hidden-layer/train.py | head -6 > /tmp/py2.out
+          go run ./cmd/soroban 0002 > /tmp/go2.out
+          diff /tmp/py2.out /tmp/go2.out
