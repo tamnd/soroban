@@ -23,13 +23,13 @@ The machine is a [model](https://en.wikipedia.org/wiki/Statistical_model), which
 
 $$\hat{y} = w x + b$$
 
-Read $`\hat{y}`$ ("y hat") as "the model's guess at y". This particular model is a line, so what we are doing has an old and respectable name, [linear regression](https://en.wikipedia.org/wiki/Linear_regression), but do not let the name fool you into thinking it is a different subject. A neuron in a neural network computes exactly this, a weighted input plus a bias, and this lesson's model is a genuine single neuron, just not yet wearing the activation function it picks up in lesson 0002.
+In words: take the input, multiply it by $`w`$, add $`b`$, and that is the guess. Read $`\hat{y}`$ ("y hat") as "the model's guess at y". A word about formulas before we go on: this lesson uses a handful of them because they are the shortest way to be precise, and every symbol that appears has its own plain-language page in the repo's [maths shelf](../../maths), with the arithmetic worked out on this lesson's numbers. If a formula ever stalls you, that is the place to go; nothing there assumes more than arithmetic. This particular model is a line, so what we are doing has an old and respectable name, [linear regression](https://en.wikipedia.org/wiki/Linear_regression), but do not let the name fool you into thinking it is a different subject. A neuron in a neural network computes exactly this, a weighted input plus a bias, and this lesson's model is a genuine single neuron, not yet wearing the activation function it picks up in lesson 0002.
 
 The knobs $`w`$ (a weight) and $`b`$ (a bias) start at zero, which means the model starts by answering 0 to every question. Training is the process of turning the knobs until the guesses match the data, and the whole trick is that the data itself will tell us which way to turn them.
 
 ## Measuring wrongness: the loss
 
-To improve, we first need "wrong" as a single number, so that "better" simply means "smaller". Start with the error on each point, guess minus truth:
+To improve, we first need "wrong" as a single number, so that "better" can mean "smaller". Start with the error on each point, guess minus truth:
 
 ```
 e = y_hat - y = [0-3, 0-5, 0-7, 0-9] = [-3, -5, -7, -9]
@@ -38,6 +38,8 @@ e = y_hat - y = [0-3, 0-5, 0-7, 0-9] = [-3, -5, -7, -9]
 Now squash the four errors into one number. The standard recipe is to square each error and take the average, which is called the [mean squared error](https://en.wikipedia.org/wiki/Mean_squared_error):
 
 $$L = \frac{1}{N}\sum_{i=1}^{N} (\hat{y}_i - y_i)^2$$
+
+In words: for each of the $`N`$ points (here $`N = 4`$), take guess minus truth and square it, add the four squares up (that is all the big sigma means, it is a for loop that accumulates), then divide by $`N`$ to make it an average. The [notation page](../../maths/notation.md) walks through every symbol one at a time, and the [mean squared error page](../../maths/mean-squared-error.md) works this exact computation and explains why squaring beats the alternatives.
 
 Squaring does two useful things: it makes overshooting and undershooting equally bad (both become positive), and it punishes big misses much harder than small ones. On our data:
 
@@ -68,7 +70,7 @@ Read it plainly: around w = 0, each unit of w-increase buys about 35 units of lo
 
 $$\frac{\partial L}{\partial w} = \lim_{h \to 0} \frac{L(w+h) - L(w)}{h}$$
 
-means nothing more mysterious than the experiment we just ran, taken to the limit of an infinitely small nudge. Here is the picture: hold b at 0 and the loss traces a bowl as w varies, and we just measured the steepness of that bowl at our starting point.
+means nothing more mysterious than the experiment we ran. Match the pieces: $`h`$ is the nudge (ours was 0.001), $`L(w+h) - L(w)`$ is how much the loss moved, the fraction is the divide we did, and $`\lim_{h \to 0}`$ says to imagine the nudge shrinking toward zero, which is why our measured -34.9925 sits a hair away from the exact -35. The curly $`\partial`$ flags that the loss has several knobs and we nudged only one. If any of that went fast, the [derivative page](../../maths/derivative.md) rebuilds the whole idea from this one measurement. Here is the picture: hold b at 0 and the loss traces a bowl as w varies, and we just measured the steepness of that bowl at our starting point.
 
 ![the loss bowl over w, with the tangent of slope -35 at the start](assets/slope.png)
 
@@ -91,6 +93,8 @@ That is the entire chain rule: when a change flows through stages, the slopes of
 
 $$\frac{\partial L}{\partial w} = \frac{2}{N}\sum_{i=1}^{N} e_i x_i \qquad \frac{\partial L}{\partial b} = \frac{2}{N}\sum_{i=1}^{N} e_i$$
 
+In words: for $`w`$, average the per-point values of $`2 e x`$; for $`b`$, average $`2 e`$ (its chain is the same except the second gear ratio is 1, because raising $`b`$ by a hair raises the error by exactly that hair). The [chain rule page](../../maths/chain-rule.md) rebuilds both formulas gear by gear, with a nudge check on every claim, if the two-line derivation above went by too fast.
+
 Now all four points, by hand:
 
 ```
@@ -101,7 +105,7 @@ dL/dw = (-6 - 20 - 42 - 72) / 4 = -140 / 4 = -35
 dL/db = (-6 - 10 - 14 - 18) / 4 = -48 / 4 = -12
 ```
 
-The nudge experiment said -34.9925 and the formula says exactly -35; the small gap is just the nudge not being infinitely small. We derived our first gradients and cross-checked them against a direct experiment. From here on we trust the formulas, because we watched them agree with reality.
+The nudge experiment said -34.9925 and the formula says exactly -35; the small gap is the nudge not being infinitely small. We derived our first gradients and cross-checked them against a direct experiment. From here on we trust the formulas, because we watched them agree with reality.
 
 ## The update rule
 
@@ -109,7 +113,9 @@ The slope points uphill, we want downhill, so we step against it, and only a lit
 
 $$w \leftarrow w - \mathrm{lr}\cdot\frac{\partial L}{\partial w} \qquad b \leftarrow b - \mathrm{lr}\cdot\frac{\partial L}{\partial b}$$
 
-The step size $`\mathrm{lr}`$ is the [learning rate](https://en.wikipedia.org/wiki/Learning_rate), and this lesson uses lr = 0.05. This procedure, step against the gradient and repeat, is [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent), and it is not an ingredient of training, it is training. Everything below is just this rule applied over and over.
+In words: new $`w`$ is old $`w`$ minus a small multiple of its slope, and likewise for $`b`$. The left arrow means assignment, like `=` in python, and the minus sign is what makes the step go downhill in both possible cases: a negative slope makes the subtraction push the knob up, a positive slope pushes it down. Check it on our numbers: $`w \leftarrow 0 - 0.05 \cdot (-35) = 1.75`$, and $`w`$ rose, exactly what a downhill-to-the-right bowl demands. The [gradient descent page](../../maths/gradient-descent.md) walks through every piece of this rule.
+
+The step size $`\mathrm{lr}`$ is the [learning rate](https://en.wikipedia.org/wiki/Learning_rate), and this lesson uses lr = 0.05. This procedure, step against the gradient and repeat, is [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent), and it is not an ingredient of training, it is training. Everything below is this one rule applied over and over.
 
 ## Three steps, fully by hand
 
@@ -191,7 +197,7 @@ loss.backward()
 print(loss.item(), w.grad.item(), b.grad.item())   # 41.0 -35.0 -12.0
 ```
 
-Nobody typed the gradient formula anywhere in that script, and out come your numbers. Run it with `uv run train.py --torch`, or just run the notebook, where this cell is included.
+Nobody typed the gradient formula anywhere in that script, and out come your numbers. Run it with `uv run train.py --torch`, or run the notebook, where this cell is included.
 
 ## The Go version, or why this repo has a `grad/` package
 

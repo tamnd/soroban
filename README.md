@@ -11,7 +11,7 @@ I started this because every explanation of backpropagation I read either hid th
 
 Every lesson follows the same discipline. You predict what will happen, you compute a small training run entirely by hand, then code reproduces your arithmetic with `assert` statements standing guard over every number, and finally you break something on purpose and study the wreckage. If the asserts pass, the machine has agreed with your paper. If they fail, you get to find out who is wrong, and learning to find out who is wrong is the actual curriculum.
 
-There is no required background beyond arithmetic. The one calculus idea we need (a derivative is a slope you can measure by nudging) is built from a numerical experiment inside lesson 0001, not imported from a course you were supposed to have taken.
+There is no required background beyond arithmetic. The one calculus idea we need (a derivative is a slope you can measure by nudging) is built from a numerical experiment inside lesson 0001, not imported from a course you were supposed to have taken. And when notation gets in the way, the [maths shelf](maths) has one plain-language page per symbol and idea, each worked out on the same numbers the lessons use, so the lessons can stay focused on training while the shelf carries the reference material.
 
 ## The lessons
 
@@ -55,6 +55,7 @@ soroban/
 ├── grad/               autograd engine (from scratch, scalar-valued)
 ├── nn/                 neural net pieces built on grad
 ├── cmd/soroban/        lesson runner: list lessons, run one by id
+├── maths/              the maths shelf: notation and concepts, one page each
 ├── lessons/
 │   └── 0001-one-neuron/
 │       ├── README.md   the lesson, written to be read

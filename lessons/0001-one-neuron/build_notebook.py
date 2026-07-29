@@ -38,6 +38,8 @@ We train the smallest possible model, $\\hat{{y}} = wx + b$, to discover the rul
 
 $$L = \\frac{{1}}{{N}}\\sum_{{i=1}}^{{N}} (\\hat{{y}}_i - y_i)^2$$
 
+In words: guess minus truth for each of the $N$ points, square each one, average them. If any formula in this notebook stalls you, the repo's [maths shelf](https://github.com/tamnd/soroban/tree/main/maths) has one plain-language page per symbol and idea, worked out on this lesson's numbers.
+
 Here is the whole notebook in one animation, rendered with manim from this lesson's `visuals.py`:
 
 ![the line learning]({ASSETS}/fit.gif)"""))
