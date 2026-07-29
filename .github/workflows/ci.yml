@@ -20,7 +20,7 @@ jobs:
       - name: test
         run: go test ./...
       - name: lesson runner
-        run: go run ./cmd/soroban list && go run ./cmd/soroban 0001 && go run ./cmd/soroban 0002 && go run ./cmd/soroban 0003 && go run ./cmd/soroban 0004 && go run ./cmd/soroban 0005
+        run: go run ./cmd/soroban list && go run ./cmd/soroban 0001 && go run ./cmd/soroban 0002 && go run ./cmd/soroban 0003 && go run ./cmd/soroban 0004 && go run ./cmd/soroban 0005 && go run ./cmd/soroban 0006
 
   python:
     runs-on: ubuntu-latest
@@ -37,6 +37,8 @@ jobs:
         run: uv run lessons/0004-autograd/train.py
       - name: lesson 0005 asserts
         run: uv run lessons/0005-bigram/train.py
+      - name: lesson 0006 asserts
+        run: uv run lessons/0006-neural-bigram/train.py
       - name: notebooks execute clean
         run: |
           uv run --extra notebook python -c "
@@ -45,7 +47,8 @@ jobs:
                        'lessons/0002-hidden-layer/lesson.ipynb',
                        'lessons/0003-classification/lesson.ipynb',
                        'lessons/0004-autograd/lesson.ipynb',
-                       'lessons/0005-bigram/lesson.ipynb'):
+                       'lessons/0005-bigram/lesson.ipynb',
+                       'lessons/0006-neural-bigram/lesson.ipynb'):
               nb = nbformat.read(path, as_version=4)
               nbclient.NotebookClient(nb, timeout=300).execute()
               print(path, 'executed clean')
@@ -76,3 +79,6 @@ jobs:
           uv run lessons/0005-bigram/train.py | head -7 > /tmp/py5.out
           go run ./cmd/soroban 0005 > /tmp/go5.out
           diff /tmp/py5.out /tmp/go5.out
+          uv run lessons/0006-neural-bigram/train.py | head -7 > /tmp/py6.out
+          go run ./cmd/soroban 0006 > /tmp/go6.out
+          diff /tmp/py6.out /tmp/go6.out

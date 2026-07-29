@@ -2,7 +2,7 @@
 
 Reference: [word embedding on Wikipedia](https://en.wikipedia.org/wiki/Word_embedding).
 
-An embedding is the plainest idea in a neural network wearing an intimidating name: it is a table of rows, one row per item in some vocabulary, and using it means picking the row for the item you have. Give every letter, word, or token an index, stack a row of numbers for each one into a matrix, and the embedding of item $i$ is just row $i$ of that matrix. The rows are ordinary weights, so gradient descent trains them like any others, which is the whole point: the model learns what each item's row should contain.
+An embedding is the plainest idea in a neural network wearing an intimidating name: it is a table of rows, one row per item in some vocabulary, and using it means picking the row for the item you have. Give every letter, word, or token an index, stack a row of numbers for each one into a matrix, and the embedding of item $i$ is row $i$ of that matrix. The rows are ordinary weights, so gradient descent trains them like any others, which is the whole point: the model learns what each item's row should contain.
 
 ## A lookup is a matrix multiply
 
@@ -10,7 +10,7 @@ Here is the fact that ties an embedding to the rest of the math. Let $W$ be a ma
 
 $$\mathrm{onehot}(i) \cdot W = W[i]$$
 
-the whole product is just row $i$ of $W$. The one-hot's single $1$ multiplies row $i$ by one and every other row by zero, so the sum picks out exactly one row. Reading `W[i]` by index and multiplying by a one-hot vector are the same operation; the index form is how you write it in code and the matrix form is how it fits into a network, where the previous layer hands you a one-hot (or a soft, near-one-hot) vector rather than an integer.
+the whole product is row $i$ of $W$ and nothing else. The one-hot's single $1$ multiplies row $i$ by one and every other row by zero, so the sum picks out exactly one row. Reading `W[i]` by index and multiplying by a one-hot vector are the same operation; the index form is how you write it in code and the matrix form is how it fits into a network, where the previous layer hands you a one-hot (or a soft, near-one-hot) vector rather than an integer.
 
 ## Worked on lesson 0006's matrix
 
