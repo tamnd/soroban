@@ -22,7 +22,7 @@ There is no required background beyond arithmetic. The one calculus idea we need
 | 0003 | [ice, water, steam](lessons/0003-classification) | softmax and cross-entropy on a 3-class example | any CPU | done |
 | 0004 | [autograd from scratch](lessons/0004-autograd) | the computation graph of 0001, walked backward box by box | any CPU | done |
 | 0005 | [language as counting](lessons/0005-bigram) | a bigram table over a tiny corpus, sampling included | any CPU | done |
-| 0006 | embeddings | one embedding lookup and its gradient | any CPU | planned |
+| 0006 | [embeddings](lessons/0006-neural-bigram) | the neural bigram learns 0005's table by gradient descent | any CPU | done |
 | 0007 | attention | one attention head over 3 tokens, every dot product | GPU helps | planned |
 | 0008 | the training loop as instrument | parameters vs data points, overfitting arithmetic | GPU helps | planned |
 | 0009 | the FLOPs ledger | the 6ND rule for GPT-2, on paper, then measured | GPU (4090) | planned |
