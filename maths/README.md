@@ -9,6 +9,9 @@ Lessons in this repo use mathematical notation because it is the shortest way to
 | [derivative.md](derivative.md) | what a slope is, how to measure one by nudging, and what a gradient is | lesson 0001 |
 | [chain-rule.md](chain-rule.md) | why the slopes of chained steps multiply | lesson 0001 |
 | [gradient-descent.md](gradient-descent.md) | the update rule, the minus sign, and the learning rate | lesson 0001 |
+| [floats.md](floats.md) | which decimals a computer stores exactly, and how that decides assert tolerances | lesson 0001 |
+| [autodiff.md](autodiff.md) | how torch computes gradients without being given formulas, and why it is called backpropagation | lesson 0001 |
+| [relu.md](relu.md) | the activation function as a switch, its gradient gate, and the dying ReLU failure | lesson 0002 |
 
 Two habits make these pages work. First, never read past a formula you could not recompute; every formula on this shelf comes with the numbers to recompute it. Second, treat notation as compression rather than difficulty: each symbol is an abbreviation someone invented to avoid writing a sentence over and over, and once you know the sentence, the symbol is your friend.
 

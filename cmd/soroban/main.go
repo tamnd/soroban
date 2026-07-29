@@ -21,6 +21,7 @@ type lesson struct {
 
 var lessons = []lesson{
 	{"0001", "one neuron learns a line", lesson0001},
+	{"0002", "a hidden layer learns a V", lesson0002},
 }
 
 func main() {

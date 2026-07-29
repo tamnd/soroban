@@ -19,11 +19,11 @@ y:  3   5   7   9
 
 There is a rule hiding in there. You can probably see it (each y is twice the x plus one), but the machine cannot see anything. Our job is to build a machine that discovers the rule using only the data.
 
-The machine is a [model](https://en.wikipedia.org/wiki/Statistical_model), which is a formula with adjustable knobs:
+The machine is a model, which is a formula with adjustable knobs:
 
 $$\hat{y} = w x + b$$
 
-In words: take the input, multiply it by $`w`$, add $`b`$, and that is the guess. Read $`\hat{y}`$ ("y hat") as "the model's guess at y". A word about formulas before we go on: this lesson uses a handful of them because they are the shortest way to be precise, and every symbol that appears has its own plain-language page in the repo's [maths shelf](../../maths), with the arithmetic worked out on this lesson's numbers. If a formula ever stalls you, that is the place to go; nothing there assumes more than arithmetic. This particular model is a line, so what we are doing has an old and respectable name, [linear regression](https://en.wikipedia.org/wiki/Linear_regression), but do not let the name fool you into thinking it is a different subject. A neuron in a neural network computes exactly this, a weighted input plus a bias, and this lesson's model is a genuine single neuron, not yet wearing the activation function it picks up in lesson 0002.
+In words: take the input, multiply it by $`w`$, add $`b`$, and that is the guess. Read $`\hat{y}`$ ("y hat") as "the model's guess at y". A word about formulas before we go on: this lesson uses a handful of them because they are the shortest way to be precise, and every symbol that appears has its own plain-language page in the repo's [maths shelf](../../maths), with the arithmetic worked out on this lesson's numbers. If a formula ever stalls you, that is the place to go; nothing there assumes more than arithmetic. This particular model is a line, so what we are doing has an old and respectable name, linear regression, but do not let the name fool you into thinking it is a different subject. A neuron in a neural network computes exactly this, a weighted input plus a bias, and this lesson's model is a genuine single neuron, not yet wearing the activation function it picks up in lesson 0002.
 
 The knobs $`w`$ (a weight) and $`b`$ (a bias) start at zero, which means the model starts by answering 0 to every question. Training is the process of turning the knobs until the guesses match the data, and the whole trick is that the data itself will tell us which way to turn them.
 
@@ -35,7 +35,7 @@ To improve, we first need "wrong" as a single number, so that "better" can mean 
 e = y_hat - y = [0-3, 0-5, 0-7, 0-9] = [-3, -5, -7, -9]
 ```
 
-Now squash the four errors into one number. The standard recipe is to square each error and take the average, which is called the [mean squared error](https://en.wikipedia.org/wiki/Mean_squared_error):
+Now squash the four errors into one number. The standard recipe is to square each error and take the average, which is called the [mean squared error](../../maths/mean-squared-error.md):
 
 $$L = \frac{1}{N}\sum_{i=1}^{N} (\hat{y}_i - y_i)^2$$
 
@@ -48,7 +48,7 @@ squares:  (-3)^2 + (-5)^2 + (-7)^2 + (-9)^2 = 9 + 25 + 49 + 81 = 164
 loss:     L = 164 / 4 = 41
 ```
 
-Our starting loss is exactly 41. Remember that number; it is the first thing every implementation in this lesson must reproduce. A number like this, measuring total wrongness, is called a [loss function](https://en.wikipedia.org/wiki/Loss_function), and training means driving it toward zero.
+Our starting loss is exactly 41. Remember that number; it is the first thing every implementation in this lesson must reproduce. A number like this, measuring total wrongness, is called a [loss function](../../maths/mean-squared-error.md), and training means driving it toward zero.
 
 ## Which way to turn the knob: measure the slope
 
@@ -66,7 +66,7 @@ The loss moved from 41 to 40.9650075 when $`w`$ moved by 0.001. The rate of exch
 slope = (40.9650075 - 41) / 0.001 = -34.9925
 ```
 
-Read it plainly: around w = 0, each unit of w-increase buys about 35 units of loss-decrease. So $`w`$ should go up. This slope is a [derivative](https://en.wikipedia.org/wiki/Derivative), and the notation
+Read it plainly: around w = 0, each unit of w-increase buys about 35 units of loss-decrease. So $`w`$ should go up. This slope is a [derivative](../../maths/derivative.md), and the notation
 
 $$\frac{\partial L}{\partial w} = \lim_{h \to 0} \frac{L(w+h) - L(w)}{h}$$
 
@@ -74,11 +74,11 @@ means nothing more mysterious than the experiment we ran. Match the pieces: $`h`
 
 ![the loss bowl over w, with the tangent of slope -35 at the start](assets/slope.png)
 
-Do the same nudge on $`b`$ and you will measure -11.999. Together the two slopes form the [gradient](https://en.wikipedia.org/wiki/Gradient), the full list of "which way is downhill" for every knob at once.
+Do the same nudge on $`b`$ and you will measure -11.999. Together the two slopes form the [gradient](../../maths/derivative.md), the full list of "which way is downhill" for every knob at once.
 
 ## The same slope without the experiment: the chain rule
 
-Nudging works, but it costs one full loss computation per knob, and GPT-2 has 124 million knobs. The [chain rule](https://en.wikipedia.org/wiki/Chain_rule) gets the exact slope straight from the formula.
+Nudging works, but it costs one full loss computation per knob, and GPT-2 has 124 million knobs. The [chain rule](../../maths/chain-rule.md) gets the exact slope straight from the formula.
 
 Take the single point (x = 2, y = 5) at w = 0, b = 0. Its share of the loss is $`e^2`$ where $`e = wx + b - y = -5`$. Break the question into two easy slopes and multiply them:
 
@@ -115,7 +115,7 @@ $$w \leftarrow w - \mathrm{lr}\cdot\frac{\partial L}{\partial w} \qquad b \lefta
 
 In words: new $`w`$ is old $`w`$ minus a small multiple of its slope, and likewise for $`b`$. The left arrow means assignment, like `=` in python, and the minus sign is what makes the step go downhill in both possible cases: a negative slope makes the subtraction push the knob up, a positive slope pushes it down. Check it on our numbers: $`w \leftarrow 0 - 0.05 \cdot (-35) = 1.75`$, and $`w`$ rose, exactly what a downhill-to-the-right bowl demands. The [gradient descent page](../../maths/gradient-descent.md) walks through every piece of this rule.
 
-The step size $`\mathrm{lr}`$ is the [learning rate](https://en.wikipedia.org/wiki/Learning_rate), and this lesson uses lr = 0.05. This procedure, step against the gradient and repeat, is [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent), and it is not an ingredient of training, it is training. Everything below is this one rule applied over and over.
+The step size $`\mathrm{lr}`$ is the [learning rate](../../maths/gradient-descent.md), and this lesson uses lr = 0.05. This procedure, step against the gradient and repeat, is [gradient descent](../../maths/gradient-descent.md), and it is not an ingredient of training, it is training. Everything below is this one rule applied over and over.
 
 ## Three steps, fully by hand
 
@@ -170,7 +170,7 @@ if step == 3:
     assert abs(loss - 0.043271875) < 1e-9
 ```
 
-Step 1 is asserted with exact equality because everything in it is integer arithmetic, which floats represent perfectly. Steps 2 and 3 get a tolerance because 0.05 has no exact binary representation (see [how floats work](https://en.wikipedia.org/wiki/Double-precision_floating-point_format) if that sentence is surprising; it surprises everyone once). If an assert fires, your paper or your typing is wrong, and finding out which one is precisely the skill this course is built to teach.
+Step 1 is asserted with exact equality because everything in it is integer arithmetic, which floats represent perfectly. Steps 2 and 3 get a tolerance because 0.05 has no exact binary representation (see [how floats work](../../maths/floats.md) if that sentence is surprising; it surprises everyone once). If an assert fires, your paper or your typing is wrong, and finding out which one is precisely the skill this course is built to teach.
 
 Three ways to run it, pick whichever is nearest:
 
@@ -182,7 +182,7 @@ Three ways to run it, pick whichever is nearest:
 
 ## Torch computes the gradient without being told the formula
 
-We derived $`\frac{\partial L}{\partial w} = \frac{2}{N}\sum e_i x_i`$ by hand. [Automatic differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation) is that derivation performed mechanically: torch records every operation used to build the loss into a graph, then walks the graph backwards applying the chain rule at each node, which is why the procedure is called [backpropagation](https://en.wikipedia.org/wiki/Backpropagation).
+We derived $`\frac{\partial L}{\partial w} = \frac{2}{N}\sum e_i x_i`$ by hand. [Automatic differentiation](../../maths/autodiff.md) is that derivation performed mechanically: torch records every operation used to build the loss into a graph, then walks the graph backwards applying the chain rule at each node, which is why the procedure is called [backpropagation](../../maths/autodiff.md).
 
 ```python
 import torch
@@ -229,7 +229,7 @@ At lr = 0.1 look at the error signs: they flip every step, which is what oversho
 2. Delete $`b`$ from the model entirely, so $`\hat{y} = wx`$, and run 400 steps. The loss stops falling at a floor. Predict the floor, then compute it exactly.
 3. Make the data noisy, `y = [3.1, 4.8, 7.2, 8.9]`, and rerun. Where does the loss end up, and is that a failure?
 
-Answers, but genuinely try first. (1) Still converges, half as fast: dropping the 2 is identical to halving the learning rate, and any constant factor on the gradient gets silently absorbed into lr, which is why different textbooks disagree about such factors and nothing breaks. (2) The floor is exactly 1/6, reached at w = 7/3: without a bias the best line through the origin is $`w = \sum x_i y_i / \sum x_i^2 = 70/30`$, and the leftover error is irreducible. The lesson generalizes: a loss floor can mean your model cannot represent the answer, and no amount of training fixes that. You can even spot it in the slope figure above, whose bowl bottoms out near w = 2.33 at a height visibly above zero. (3) The loss floors at a small nonzero value, and that is not failure, that is the noise itself; a model reaching zero loss on noisy data would be memorizing the noise, a disease called [overfitting](https://en.wikipedia.org/wiki/Overfitting) that gets its own lesson later.
+Answers, but genuinely try first. (1) Still converges, half as fast: dropping the 2 is identical to halving the learning rate, and any constant factor on the gradient gets silently absorbed into lr, which is why different textbooks disagree about such factors and nothing breaks. (2) The floor is exactly 1/6, reached at w = 7/3: without a bias the best line through the origin is $`w = \sum x_i y_i / \sum x_i^2 = 70/30`$, and the leftover error is irreducible. The lesson generalizes: a loss floor can mean your model cannot represent the answer, and no amount of training fixes that. You can even spot it in the slope figure above, whose bowl bottoms out near w = 2.33 at a height visibly above zero. (3) The loss floors at a small nonzero value, and that is not failure, that is the noise itself; a model reaching zero loss on noisy data would be memorizing the noise, a disease called overfitting that gets its own lesson later.
 
 ## Exit test
 
@@ -239,6 +239,6 @@ Check yourself: L = 55, dL/dw = -32, dL/db = -14, then w = 1.6, b = 0.7, and the
 
 ## What is next
 
-Lesson 0002 gives the neuron a friend and a [nonlinearity](https://en.wikipedia.org/wiki/Activation_function), because there are shapes in data that no single line can fit, and the chain rule grows its second link. The loop you just executed by hand never changes again.
+Lesson 0002 gives the neuron a friend and a [nonlinearity](../../maths/relu.md), because there are shapes in data that no single line can fit, and the chain rule grows its second link. The loop you just executed by hand never changes again.
 
 A note on the figures: they are generated from [`visuals.py`](visuals.py) with [manim](https://github.com/manimCommunity/manim), the animation engine behind 3Blue1Brown's videos, and the rendered files are committed in [`assets/`](assets) so you never need manim installed to read the lesson. The file's docstring has the regeneration commands if you want to tinker.

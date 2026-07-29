@@ -34,7 +34,7 @@ f"""# Lesson 0001: one neuron learns a line
 
 This notebook is the runnable half of lesson 0001. The full writeup, with every step of the hand arithmetic, is in the [lesson README](https://github.com/tamnd/soroban/tree/main/lessons/0001-one-neuron). The idea here is simple: you have already computed a training run on paper, and now the code has to agree with your paper, digit for digit. Every important number below is guarded by an `assert`, so if the notebook runs top to bottom without complaint, the machine has confirmed your arithmetic.
 
-We train the smallest possible model, $\\hat{{y}} = wx + b$, to discover the rule hiding behind four data points. The rule is $y = 2x + 1$, but the model never gets told that. It only gets the data and a way to measure its own wrongness, the [mean squared error](https://en.wikipedia.org/wiki/Mean_squared_error):
+We train the smallest possible model, $\\hat{{y}} = wx + b$, to discover the rule hiding behind four data points. The rule is $y = 2x + 1$, but the model never gets told that. It only gets the data and a way to measure its own wrongness, the [mean squared error](https://github.com/tamnd/soroban/blob/main/maths/mean-squared-error.md):
 
 $$L = \\frac{{1}}{{N}}\\sum_{{i=1}}^{{N}} (\\hat{{y}}_i - y_i)^2$$
 
@@ -69,7 +69,7 @@ assert loss == 41.0  # the number you got on paper"""))
 cells.append(md(
 f"""## 1. Which way should w move? Ask, by nudging
 
-Before any theory, do the dumbest possible experiment: change $w$ by a tiny amount, recompute the loss, and see which way it moved. The ratio of loss-change to knob-change is the slope, and its sign tells you which direction is downhill. That ratio, taken to the limit of an infinitely small nudge, is exactly what the [derivative](https://en.wikipedia.org/wiki/Derivative) notation means:
+Before any theory, do the dumbest possible experiment: change $w$ by a tiny amount, recompute the loss, and see which way it moved. The ratio of loss-change to knob-change is the slope, and its sign tells you which direction is downhill. That ratio, taken to the limit of an infinitely small nudge, is exactly what the [derivative](https://github.com/tamnd/soroban/blob/main/maths/derivative.md) notation means:
 
 $$\\frac{{\\partial L}}{{\\partial w}} = \\lim_{{h \\to 0}} \\frac{{L(w+h) - L(w)}}{{h}}$$
 
@@ -85,7 +85,7 @@ print("measured slope for w:", slope_w)  # about -35, so pushing w up pushes the
 cells.append(md(
 """## 2. The same slope from the chain rule, no nudging needed
 
-Each data point contributes $e^2$ to the loss, where $e = wx + b - y$. The slope of $e^2$ with respect to $e$ is $2e$, and the slope of $e$ with respect to $w$ is $x$, so the slope of that point's loss with respect to $w$ is $2ex$. Multiplying the stage slopes like this is the [chain rule](https://en.wikipedia.org/wiki/Chain_rule), and averaging over the points gives the gradient of the full loss. Same story for $b$, whose stage slope is 1:
+Each data point contributes $e^2$ to the loss, where $e = wx + b - y$. The slope of $e^2$ with respect to $e$ is $2e$, and the slope of $e$ with respect to $w$ is $x$, so the slope of that point's loss with respect to $w$ is $2ex$. Multiplying the stage slopes like this is the [chain rule](https://github.com/tamnd/soroban/blob/main/maths/chain-rule.md), and averaging over the points gives the gradient of the full loss. Same story for $b$, whose stage slope is 1:
 
 $$\\frac{\\partial L}{\\partial w} = \\frac{2}{N}\\sum_{i=1}^{N} e_i x_i \\qquad \\frac{\\partial L}{\\partial b} = \\frac{2}{N}\\sum_{i=1}^{N} e_i$$"""))
 
@@ -100,11 +100,11 @@ print("formula", dw, "vs nudge", slope_w, ": the nudge is off by the nudge size,
 cells.append(md(
 """## 3. The training loop
 
-[Gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) is one move applied forever: step each knob a little against its slope,
+[Gradient descent](https://github.com/tamnd/soroban/blob/main/maths/gradient-descent.md) is one move applied forever: step each knob a little against its slope,
 
 $$w \\leftarrow w - \\mathrm{lr}\\cdot\\frac{\\partial L}{\\partial w} \\qquad b \\leftarrow b - \\mathrm{lr}\\cdot\\frac{\\partial L}{\\partial b}$$
 
-The step size $\\mathrm{lr}$ is the [learning rate](https://en.wikipedia.org/wiki/Learning_rate), here 0.05. The asserts pin the first three losses to the hand run: 41, then 1.12875, then 0.043271875."""))
+The step size $\\mathrm{lr}$ is the [learning rate](https://github.com/tamnd/soroban/blob/main/maths/gradient-descent.md), here 0.05. The asserts pin the first three losses to the hand run: 41, then 1.12875, then 0.043271875."""))
 
 cells.append(code(
 """w, b, lr = 0.0, 0.0, 0.05
@@ -152,7 +152,7 @@ plt.show()"""))
 cells.append(md(
 """## 4. Torch computes the same gradients without being told the formula
 
-We derived `2*e*x` on paper. [Automatic differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation) is that derivation, mechanized: torch records every operation used to build the loss, then applies the chain rule backward through the recording. Nobody types the gradient formula anywhere, and out come the exact same -35 and -12."""))
+We derived `2*e*x` on paper. [Automatic differentiation](https://github.com/tamnd/soroban/blob/main/maths/autodiff.md) is that derivation, mechanized: torch records every operation used to build the loss, then applies the chain rule backward through the recording. Nobody types the gradient formula anywhere, and out come the exact same -35 and -12."""))
 
 cells.append(code(
 """try:

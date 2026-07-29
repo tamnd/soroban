@@ -13,8 +13,9 @@ type Neuron struct {
 
 // NewNeuron returns a neuron with nin inputs and all parameters at zero.
 // Zero init is deliberate here: lesson 0001 starts from total ignorance so
-// every number is reproducible by hand. Random init shows up in lesson 0002,
-// where zero init actually breaks and you get to see why.
+// every number is reproducible by hand. Lessons that need a different init
+// (0002 onward, where zero init actually breaks and you get to see why)
+// overwrite the fields with their fixed hand-run values.
 func NewNeuron(nin int) *Neuron {
 	w := make([]*grad.Value, nin)
 	for i := range w {
