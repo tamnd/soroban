@@ -63,6 +63,26 @@ func (a *Value) Sq() *Value {
 	return out
 }
 
+// Relu returns max(0, a). Its slope is a gate: 1 where the input is
+// positive, 0 where it is not, so gradient flows back only through inputs
+// that actually fired. Lesson 0002 is built around that gate, including the
+// failure where a too-large step shuts every gate and learning stops.
+// At exactly 0 the slope is taken as 0, the common convention; the lessons
+// choose their numbers so no input ever lands there.
+func (a *Value) Relu() *Value {
+	d := a.Data
+	if d < 0 {
+		d = 0
+	}
+	out := &Value{Data: d, prev: []*Value{a}}
+	out.back = func() {
+		if a.Data > 0 {
+			a.Grad += out.Grad
+		}
+	}
+	return out
+}
+
 // Mean returns the average of vs.
 func Mean(vs []*Value) *Value {
 	sum := vs[0]
