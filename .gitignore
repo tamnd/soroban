@@ -8,6 +8,9 @@ uv.lock
 # go
 *.test
 
+# manim render output (regenerate with the commands in each lesson's visuals.py)
+lessons/*/media/
+
 # editors and os
 .DS_Store
 .idea/

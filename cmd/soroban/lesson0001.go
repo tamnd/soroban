@@ -1,6 +1,3 @@
-// Lesson 0001 in Go: one neuron learns a line, trained with the grad and nn
-// packages. The printed table matches lessons/0001-one-neuron/train.py line
-// for line, which is the point: same arithmetic, different language.
 package main
 
 import (
@@ -10,7 +7,9 @@ import (
 	"github.com/tamnd/soroban/nn"
 )
 
-func main() {
+// lesson0001 trains one neuron on the line-fit data from
+// lessons/0001-one-neuron, using the grad and nn packages.
+func lesson0001() {
 	xs := []float64{1, 2, 3, 4}
 	ys := []float64{3, 5, 7, 9}
 	const lr = 0.05
