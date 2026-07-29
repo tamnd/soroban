@@ -18,4 +18,4 @@ The lessons exploit this for cross-checking. The same gradient can be produced b
 
 ## The engine in this repo
 
-Torch's autograd is an industrial version of this recording-and-replaying, and the `grad` package in this repo is a minimal one: a `Value` holds a number, remembers which values produced it and how, and `Backward()` walks the graph in reverse accumulating slopes into each `Grad` field. Lesson 0004 builds it up from nothing, at which point this page stops being a description and becomes a specification.
+Torch's autograd is an industrial version of this recording-and-replaying, and the `grad` package in this repo is a minimal one: a `Value` holds a number, remembers which values produced it and how, and `Backward()` walks the graph in reverse accumulating slopes into each `Grad` field. The [computation-graph page](computation-graph.md) draws that recording as wiring and walks it box by box. Lesson 0004 builds the engine from nothing in Python and proves it reproduces lessons 0001 and 0002 to the digit, so this page is no longer only a description: the `Value` class it specifies exists, in two languages, held to the same numbers.
