@@ -11,6 +11,7 @@ Lessons in this repo use mathematical notation because it is the shortest way to
 | [gradient-descent.md](gradient-descent.md) | the update rule, the minus sign, and the learning rate | lesson 0001 |
 | [floats.md](floats.md) | which decimals a computer stores exactly, and how that decides assert tolerances | lesson 0001 |
 | [autodiff.md](autodiff.md) | how torch computes gradients without being given formulas, and why it is called backpropagation | lesson 0001 |
+| [computation-graph.md](computation-graph.md) | a formula drawn as wiring, the local-slope table, the backward walk, and why slopes add | lesson 0004 |
 | [relu.md](relu.md) | the activation function as a switch, its gradient gate, and the dying ReLU failure | lesson 0002 |
 | [exp-log.md](exp-log.md) | the number e, the exponential, the natural log, and why they are inverses | lesson 0003 |
 | [softmax.md](softmax.md) | scores into probabilities, shift invariance, and the subtract-max trick | lesson 0003 |
