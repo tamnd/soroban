@@ -56,6 +56,14 @@ A centered dot is multiplication. Notation drops the symbol entirely when it can
 
 Vertical bars around a number mean its absolute value: the number with any minus sign stripped off, so $|3| = 3$ and $|-3| = 3$. Geometrically it is the distance from zero, which is never negative. Plotted against $x$, the function $y = |x|$ makes a V shape with its corner at the origin, and that V is the whole subject of lesson 0002, since it is the shortest function no straight line can fit.
 
+## One-hot: y = (0, 1, 0)
+
+When the answer is a category rather than a number, the target is written as a list with a 1 in the true class's slot and 0 everywhere else, called a one-hot encoding. With classes numbered 0, 1, 2, the answer "class 1" becomes $y = (0, 1, 0)$. The point of the format is that it speaks the same language as a probability list: a perfect model would output exactly this, all its probability on the truth, so "output minus target" makes sense slot by slot. Lesson 0003's gradient is exactly that subtraction.
+
+## Argmax
+
+$\mathrm{argmax}$ of a list is the position of its largest entry, not the largest entry itself: $\mathrm{argmax}(0.2, 0.7, 0.1) = 1$, because slot 1 holds the biggest value. It is how a classifier's probability list becomes a single verdict when one is demanded. Unlike everything else on this page it has no useful slope (nudging a probability slightly almost never changes which slot wins), which is why training runs on probabilities and [cross-entropy](cross-entropy.md), and argmax only appears after training, at judgment time.
+
 ## Greek letters you will meet
 
 Only a few, and each is a plain variable that happens to be Greek: $\eta$ (eta) sometimes names the learning rate in other books (this repo writes $\mathrm{lr}$ instead), $\sigma$ (small sigma) conventionally names an [activation function](relu.md) in other books (the lessons write out names like relu instead), and $\Sigma$ (capital sigma) is the summation above. Greek letters carry no special powers; they exist because the Latin alphabet ran out.

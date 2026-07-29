@@ -12,6 +12,9 @@ Lessons in this repo use mathematical notation because it is the shortest way to
 | [floats.md](floats.md) | which decimals a computer stores exactly, and how that decides assert tolerances | lesson 0001 |
 | [autodiff.md](autodiff.md) | how torch computes gradients without being given formulas, and why it is called backpropagation | lesson 0001 |
 | [relu.md](relu.md) | the activation function as a switch, its gradient gate, and the dying ReLU failure | lesson 0002 |
+| [exp-log.md](exp-log.md) | the number e, the exponential, the natural log, and why they are inverses | lesson 0003 |
+| [softmax.md](softmax.md) | scores into probabilities, shift invariance, and the subtract-max trick | lesson 0003 |
+| [cross-entropy.md](cross-entropy.md) | the -ln price list, why the log, and the probability-minus-target gradient | lesson 0003 |
 
 Two habits make these pages work. First, never read past a formula you could not recompute; every formula on this shelf comes with the numbers to recompute it. Second, treat notation as compression rather than difficulty: each symbol is an abbreviation someone invented to avoid writing a sentence over and over, and once you know the sentence, the symbol is your friend.
 

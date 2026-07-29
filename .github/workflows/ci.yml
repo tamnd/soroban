@@ -20,7 +20,7 @@ jobs:
       - name: test
         run: go test ./...
       - name: lesson runner
-        run: go run ./cmd/soroban list && go run ./cmd/soroban 0001 && go run ./cmd/soroban 0002
+        run: go run ./cmd/soroban list && go run ./cmd/soroban 0001 && go run ./cmd/soroban 0002 && go run ./cmd/soroban 0003
 
   python:
     runs-on: ubuntu-latest
@@ -31,12 +31,15 @@ jobs:
         run: uv run lessons/0001-one-neuron/train.py
       - name: lesson 0002 asserts
         run: uv run lessons/0002-hidden-layer/train.py
+      - name: lesson 0003 asserts
+        run: uv run lessons/0003-classification/train.py
       - name: notebooks execute clean
         run: |
           uv run --extra notebook python -c "
           import nbformat, nbclient
           for path in ('lessons/0001-one-neuron/lesson.ipynb',
-                       'lessons/0002-hidden-layer/lesson.ipynb'):
+                       'lessons/0002-hidden-layer/lesson.ipynb',
+                       'lessons/0003-classification/lesson.ipynb'):
               nb = nbformat.read(path, as_version=4)
               nbclient.NotebookClient(nb, timeout=300).execute()
               print(path, 'executed clean')
@@ -58,3 +61,6 @@ jobs:
           uv run lessons/0002-hidden-layer/train.py | head -6 > /tmp/py2.out
           go run ./cmd/soroban 0002 > /tmp/go2.out
           diff /tmp/py2.out /tmp/go2.out
+          uv run lessons/0003-classification/train.py | head -6 > /tmp/py3.out
+          go run ./cmd/soroban 0003 > /tmp/go3.out
+          diff /tmp/py3.out /tmp/go3.out

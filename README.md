@@ -19,7 +19,7 @@ There is no required background beyond arithmetic. The one calculus idea we need
 |---|--------|--------------------|---------|--------|
 | 0001 | [one neuron learns a line](lessons/0001-one-neuron) | 3 full gradient descent steps, every multiplication shown | any CPU | done |
 | 0002 | [a hidden layer learns a V](lessons/0002-hidden-layer) | a full backward pass through two layers, all seven gradients | any CPU | done |
-| 0003 | classification | softmax and cross-entropy on a 3-class example | any CPU | planned |
+| 0003 | [ice, water, steam](lessons/0003-classification) | softmax and cross-entropy on a 3-class example | any CPU | done |
 | 0004 | autograd from scratch | the computation graph of 0001, differentiated by hand | any CPU | planned |
 | 0005 | language as counting | a bigram table over a tiny corpus, sampling included | any CPU | planned |
 | 0006 | embeddings | one embedding lookup and its gradient | any CPU | planned |

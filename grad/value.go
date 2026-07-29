@@ -7,6 +7,8 @@
 // shrunk to the point where you can read all of it in one sitting.
 package grad
 
+import "math"
+
 // Value is one node in the expression graph: a number, the gradient of the
 // final output with respect to that number, and a closure that knows how to
 // push gradient back to the nodes it was computed from.
@@ -79,6 +81,40 @@ func (a *Value) Relu() *Value {
 		if a.Data > 0 {
 			a.Grad += out.Grad
 		}
+	}
+	return out
+}
+
+// Div returns a / b. The backward rules are the quotient rule split in two:
+// the numerator's slope is 1/b, the denominator's is -a/b^2.
+func (a *Value) Div(b *Value) *Value {
+	out := &Value{Data: a.Data / b.Data, prev: []*Value{a, b}}
+	out.back = func() {
+		a.Grad += out.Grad / b.Data
+		b.Grad -= a.Data / (b.Data * b.Data) * out.Grad
+	}
+	return out
+}
+
+// Exp returns e^a. The exponential is its own slope, so the backward rule
+// reuses the forward result. It arrives for lesson 0003, where softmax
+// needs a way to make every score positive.
+func (a *Value) Exp() *Value {
+	d := math.Exp(a.Data)
+	out := &Value{Data: d, prev: []*Value{a}}
+	out.back = func() {
+		a.Grad += d * out.Grad
+	}
+	return out
+}
+
+// Log returns the natural log of a. Its slope is 1/a, largest where a is
+// smallest, which is the mechanical reason cross-entropy pushes hardest on
+// the points the model gets most wrong.
+func (a *Value) Log() *Value {
+	out := &Value{Data: math.Log(a.Data), prev: []*Value{a}}
+	out.back = func() {
+		a.Grad += out.Grad / a.Data
 	}
 	return out
 }
