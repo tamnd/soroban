@@ -24,6 +24,7 @@ var lessons = []lesson{
 	{"0002", "a hidden layer learns a V", lesson0002},
 	{"0003", "ice, water, steam, a first classifier", lesson0003},
 	{"0004", "autograd from scratch", lesson0004},
+	{"0005", "language as counting, a bigram model", lesson0005},
 }
 
 func main() {
