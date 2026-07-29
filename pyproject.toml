@@ -8,6 +8,7 @@ dependencies = ["numpy>=1.26"]
 [project.optional-dependencies]
 torch = ["torch>=2.4"]
 notebook = ["jupyter", "matplotlib", "nbclient", "ipykernel"]
+visuals = ["manim>=0.19"]
 
 [tool.uv]
 package = false

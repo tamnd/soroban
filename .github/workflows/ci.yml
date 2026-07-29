@@ -19,8 +19,8 @@ jobs:
         run: go vet ./...
       - name: test
         run: go test ./...
-      - name: lesson output matches train.py
-        run: go run ./cmd/lesson0001
+      - name: lesson runner
+        run: go run ./cmd/soroban list && go run ./cmd/soroban 0001
 
   python:
     runs-on: ubuntu-latest
@@ -49,5 +49,5 @@ jobs:
       - name: python and go print identical tables
         run: |
           uv run lessons/0001-one-neuron/train.py | head -6 > /tmp/py.out
-          go run ./cmd/lesson0001 > /tmp/go.out
+          go run ./cmd/soroban 0001 > /tmp/go.out
           diff /tmp/py.out /tmp/go.out

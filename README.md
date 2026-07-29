@@ -2,7 +2,12 @@
 
 [![ci](https://github.com/tamnd/soroban/actions/workflows/ci.yml/badge.svg)](https://github.com/tamnd/soroban/actions/workflows/ci.yml)
 
+> [!NOTE]
+> The GPU lessons in this repo are developed and tested on a real RTX 4090 machine generously provided by [longkt90](https://github.com/longkt90). None of the hardware measurements would exist without it. Thank you.
+
 Soroban (算盤) is the Japanese abacus, the tool for doing real arithmetic by hand. That is the whole idea of this repo: learn to train neural networks by computing the training runs yourself, on paper, with a four-function calculator, and only then letting the machines confirm your numbers.
+
+I started this because every explanation of backpropagation I read either hid the arithmetic behind matrix notation or hid it behind a framework. Neither ever made it stick for me. What made it stick was sitting down and computing three steps of gradient descent by hand, then writing code whose only job was to agree with my paper. So that is the format of every lesson here.
 
 Every lesson follows the same discipline. You predict what will happen, you compute a small training run entirely by hand, then code reproduces your arithmetic with `assert` statements standing guard over every number, and finally you break something on purpose and study the wreckage. If the asserts pass, the machine has agreed with your paper. If they fail, you get to find out who is wrong, and learning to find out who is wrong is the actual curriculum.
 
@@ -23,7 +28,7 @@ There is no required background beyond arithmetic. The one calculus idea we need
 | 0009 | the FLOPs ledger | the 6ND rule for GPT-2, on paper, then measured | GPU (4090) | planned |
 | 0010 | fine-tuning arithmetic | LoRA parameter counting | GPU (4090) | planned |
 
-Each lesson folder contains three things: a `README.md` written as a blog post that explains every concept as it appears, a `lesson.ipynb` notebook that runs locally or on Google Colab with one click, and a `train.py` script for running on real hardware.
+Each lesson folder contains a `README.md` written as a blog post that explains every concept as it appears, a `lesson.ipynb` notebook that runs locally or on Google Colab with one click, a `train.py` script for real hardware, and a `visuals.py` of [manim](https://www.manim.community/) scenes that render the animations and figures embedded in the writeup. The pictures are not decoration; each one is generated from the same numbers the asserts pin down.
 
 ## Running things
 
@@ -39,9 +44,9 @@ The repo doubles as a small Go library, built from scratch and grown one lesson 
 
 - [`grad`](grad): a reverse-mode autograd engine on scalars, about a hundred readable lines. The same machinery as `torch.autograd`, minus everything that is not the idea itself.
 - [`nn`](nn): neurons and, as the lessons demand them, layers and networks on top of `grad`.
-- [`cmd/lesson0001`](cmd/lesson0001): each lesson's Go runner, printing the same table as its `train.py`, byte for byte.
+- [`cmd/soroban`](cmd/soroban): one runner for all lessons. `go run ./cmd/soroban list` shows what exists, `go run ./cmd/soroban 0001` trains lesson 0001 and prints the same table as its `train.py`, byte for byte.
 
-The Go tests assert the same hand-computed numbers as the python (`go test ./...`), so every lesson's arithmetic ends up pinned by three independent implementations: your paper, numpy, and Go. When two of them agree and one does not, you know where the bug lives. That cross-check is the best debugging trick this repo has to teach, and it falls out of the structure for free.
+The Go tests assert the same hand-computed numbers as the python (`go test ./...`), so every lesson's arithmetic ends up pinned by three independent implementations: your paper, numpy, and Go. When two of them agree and one does not, you know where the bug lives. That cross-check is the best debugging trick this repo has to teach, and it falls out of the structure for free. CI runs all three and also diffs the python table against the Go table, so the agreement is enforced on every pull request, not just promised.
 
 ## Layout
 
@@ -49,19 +54,17 @@ The Go tests assert the same hand-computed numbers as the python (`go test ./...
 soroban/
 ├── grad/               autograd engine (from scratch, scalar-valued)
 ├── nn/                 neural net pieces built on grad
-├── cmd/lesson0001/     Go runner per lesson
+├── cmd/soroban/        lesson runner: list lessons, run one by id
 ├── lessons/
 │   └── 0001-one-neuron/
 │       ├── README.md   the lesson, written to be read
 │       ├── lesson.ipynb  the lesson, written to be run (local or Colab)
-│       └── train.py    the lesson, for real hardware
+│       ├── train.py    the lesson, for real hardware
+│       ├── visuals.py  manim scenes for the figures
+│       └── assets/     rendered animations and figures
 ├── pyproject.toml      python deps, uv-friendly
-└── .github/workflows/  ci runs the asserts in both languages
+└── .github/workflows/  ci runs the asserts in both languages, plus the cross-check
 ```
-
-## Thanks
-
-The GPU lessons are developed and tested on a single RTX 4090 machine generously provided by [longkt90](https://github.com/longkt90). Thank you.
 
 ## License
 
