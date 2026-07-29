@@ -197,7 +197,7 @@ cells.append(code(
     assert all(abs(g) < 1e-12 for g in bt.grad.tolist())
     print("torch agrees with your paper, loss and all six gradients")
 except ImportError:
-    print("torch not installed, skipping this check (on Colab it just runs)")"""))
+    print("torch not installed, skipping this check (Colab has it preinstalled)")"""))
 
 cells.append(md(
 """## 5. Break it on purpose
