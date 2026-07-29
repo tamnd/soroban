@@ -23,6 +23,7 @@ var lessons = []lesson{
 	{"0001", "one neuron learns a line", lesson0001},
 	{"0002", "a hidden layer learns a V", lesson0002},
 	{"0003", "ice, water, steam, a first classifier", lesson0003},
+	{"0004", "autograd from scratch", lesson0004},
 }
 
 func main() {
