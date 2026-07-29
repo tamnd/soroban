@@ -64,6 +64,14 @@ When the answer is a category rather than a number, the target is written as a l
 
 $\mathrm{argmax}$ of a list is the position of its largest entry, not the largest entry itself: $\mathrm{argmax}(0.2, 0.7, 0.1) = 1$, because slot 1 holds the biggest value. It is how a classifier's probability list becomes a single verdict when one is demanded. Unlike everything else on this page it has no useful slope (nudging a probability slightly almost never changes which slot wins), which is why training runs on probabilities and [cross-entropy](cross-entropy.md), and argmax only appears after training, at judgment time.
 
+## The conditional bar: $P(b \mid a)$
+
+Read the bar as "given". $P(b \mid a)$ is the probability that the next symbol is $b$ given that the current one is $a$, a single number between 0 and 1. Fix $a$ and let $b$ range over every possible next symbol and you get a whole probability distribution, one row of a table, that sums to 1. Lesson 0005's [bigram model](bigram.md) is nothing but a table of these, one row per current symbol, each row read off by counting.
+
+## The boundary token: $.$
+
+Sequences need to say where they begin and end, so language models reserve one symbol, written as a dot, to mean "edge of a word". Wrapping `cat` as $.\text{cat}.$ lets a single next-symbol table also answer which symbols can start a word (those that follow the dot) and which can end one (those the dot follows). It is punctuation for the model, not for the reader.
+
 ## Greek letters you will meet
 
 Only a few, and each is a plain variable that happens to be Greek: $\eta$ (eta) sometimes names the learning rate in other books (this repo writes $\mathrm{lr}$ instead), $\sigma$ (small sigma) conventionally names an [activation function](relu.md) in other books (the lessons write out names like relu instead), and $\Sigma$ (capital sigma) is the summation above. Greek letters carry no special powers; they exist because the Latin alphabet ran out.
