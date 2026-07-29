@@ -72,6 +72,10 @@ Read the bar as "given". $P(b \mid a)$ is the probability that the next symbol i
 
 Sequences need to say where they begin and end, so language models reserve one symbol, written as a dot, to mean "edge of a word". Wrapping `cat` as $.\text{cat}.$ lets a single next-symbol table also answer which symbols can start a word (those that follow the dot) and which can end one (those the dot follows). It is punctuation for the model, not for the reader.
 
+## The row lookup: $W[i]$ and $\mathrm{onehot}(i) \cdot W$
+
+Square brackets index into a table: $W[i]$ is row $i$ of a matrix $W$, the whole row of numbers, not a single entry. When $i$ is the index of a symbol, reading $W[i]$ is an [embedding](embedding.md) lookup, and it equals the matrix product $\mathrm{onehot}(i) \cdot W$, because a one-hot row with its single $1$ in position $i$ selects exactly that row and zeroes the rest. Lesson 0006's model is one line in this notation, $\text{logits} = W[\text{current}]$: look up the current symbol's row of scores, then [softmax](softmax.md) it into next-symbol probabilities.
+
 ## Greek letters you will meet
 
 Only a few, and each is a plain variable that happens to be Greek: $\eta$ (eta) sometimes names the learning rate in other books (this repo writes $\mathrm{lr}$ instead), $\sigma$ (small sigma) conventionally names an [activation function](relu.md) in other books (the lessons write out names like relu instead), and $\Sigma$ (capital sigma) is the summation above. Greek letters carry no special powers; they exist because the Latin alphabet ran out.

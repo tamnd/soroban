@@ -17,6 +17,7 @@ Lessons in this repo use mathematical notation because it is the shortest way to
 | [softmax.md](softmax.md) | scores into probabilities, shift invariance, and the subtract-max trick | lesson 0003 |
 | [cross-entropy.md](cross-entropy.md) | the -ln price list, why the log, and the probability-minus-target gradient | lesson 0003 |
 | [bigram.md](bigram.md) | language as counting: the boundary token, counts to probabilities, the loss, sampling, and the zero-frequency problem | lesson 0005 |
+| [embedding.md](embedding.md) | a lookup table as a matrix, one-hot times a matrix equals a row, and why the gradient is sparse | lesson 0006 |
 
 Two habits make these pages work. First, never read past a formula you could not recompute; every formula on this shelf comes with the numbers to recompute it. Second, treat notation as compression rather than difficulty: each symbol is an abbreviation someone invented to avoid writing a sentence over and over, and once you know the sentence, the symbol is your friend.
 
