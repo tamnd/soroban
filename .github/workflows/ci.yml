@@ -1,0 +1,53 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      - name: gofmt
+        run: test -z "$(gofmt -l .)"
+      - name: vet
+        run: go vet ./...
+      - name: test
+        run: go test ./...
+      - name: lesson output matches train.py
+        run: go run ./cmd/lesson0001
+
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: lesson 0001 asserts
+        run: uv run lessons/0001-one-neuron/train.py
+      - name: lesson 0001 notebook executes clean
+        run: |
+          uv run --extra notebook python -c "
+          import nbformat, nbclient
+          nb = nbformat.read('lessons/0001-one-neuron/lesson.ipynb', as_version=4)
+          nbclient.NotebookClient(nb, timeout=300).execute()
+          print('notebook executed clean')
+          "
+
+  cross-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      - uses: astral-sh/setup-uv@v5
+      - name: python and go print identical tables
+        run: |
+          uv run lessons/0001-one-neuron/train.py | head -6 > /tmp/py.out
+          go run ./cmd/lesson0001 > /tmp/go.out
+          diff /tmp/py.out /tmp/go.out

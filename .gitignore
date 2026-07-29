@@ -1,0 +1,14 @@
+# python
+__pycache__/
+*.pyc
+.venv/
+uv.lock
+.ipynb_checkpoints/
+
+# go
+*.test
+
+# editors and os
+.DS_Store
+.idea/
+.vscode/
