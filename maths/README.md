@@ -21,6 +21,7 @@ Lessons in this repo use mathematical notation because it is the shortest way to
 | [attention.md](attention.md) | query, key, value, the scaled dot-product score, the causal mask, and the weighted-average output | lesson 0007 |
 | [overfitting.md](overfitting.md) | capacity versus data, the train/validation split, the generalization gap, and early stopping | lesson 0008 |
 | [flops.md](flops.md) | the cost of a matrix multiply, the 6ND rule, what it leaves out, and model FLOPs utilization | lesson 0009 |
+| [lora.md](lora.md) | matrix rank, the low-rank update B times A, why it starts as a no-op, and the fine-tuning memory ledger | lesson 0010 |
 
 Two habits make these pages work. First, never read past a formula you could not recompute; every formula on this shelf comes with the numbers to recompute it. Second, treat notation as compression rather than difficulty: each symbol is an abbreviation someone invented to avoid writing a sentence over and over, and once you know the sentence, the symbol is your friend.
 
