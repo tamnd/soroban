@@ -25,7 +25,7 @@ There is no required background beyond arithmetic. The one calculus idea we need
 | 0006 | [embeddings](lessons/0006-neural-bigram) | the neural bigram learns 0005's table by gradient descent | any CPU | done |
 | 0007 | [attention](lessons/0007-attention) | one attention head over 3 tokens, every dot product, then a tiny transformer | CPU (GPU helps) | done |
 | 0008 | [the training loop as instrument](lessons/0008-training-loop) | a line vs a parabola on 5 points, then the train/val gap of a transformer | CPU (GPU helps) | done |
-| 0009 | the FLOPs ledger | the 6ND rule for GPT-2, on paper, then measured | GPU (4090) | planned |
+| 0009 | [the FLOPs ledger](lessons/0009-flops-ledger) | the 6ND rule for GPT-2-124M on paper, then the 4090's measured MFU | GPU (4090) | done |
 | 0010 | fine-tuning arithmetic | LoRA parameter counting | GPU (4090) | planned |
 
 Each lesson folder contains a `README.md` written as a blog post that explains every concept as it appears, a `lesson.ipynb` notebook that runs locally or on Google Colab with one click, a `train.py` script for real hardware, and a `visuals.py` of [manim](https://www.manim.community/) scenes that render the animations and figures embedded in the writeup. The pictures are not decoration; each one is generated from the same numbers the asserts pin down.
