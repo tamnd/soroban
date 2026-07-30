@@ -24,7 +24,7 @@ There is no required background beyond arithmetic. The one calculus idea we need
 | 0005 | [language as counting](lessons/0005-bigram) | a bigram table over a tiny corpus, sampling included | any CPU | done |
 | 0006 | [embeddings](lessons/0006-neural-bigram) | the neural bigram learns 0005's table by gradient descent | any CPU | done |
 | 0007 | [attention](lessons/0007-attention) | one attention head over 3 tokens, every dot product, then a tiny transformer | CPU (GPU helps) | done |
-| 0008 | the training loop as instrument | parameters vs data points, overfitting arithmetic | GPU helps | planned |
+| 0008 | [the training loop as instrument](lessons/0008-training-loop) | a line vs a parabola on 5 points, then the train/val gap of a transformer | CPU (GPU helps) | done |
 | 0009 | the FLOPs ledger | the 6ND rule for GPT-2, on paper, then measured | GPU (4090) | planned |
 | 0010 | fine-tuning arithmetic | LoRA parameter counting | GPU (4090) | planned |
 
@@ -34,9 +34,9 @@ Each lesson folder contains a `README.md` written as a blog post that explains e
 
 **Locally.** Install [uv](https://docs.astral.sh/uv/) and you are done setting up; `uv run lessons/0001-one-neuron/train.py` fetches what it needs and runs. Plain python with numpy also works.
 
-**On Google Colab.** Every lesson README carries an "Open in Colab" badge for its notebook. Colab preinstalls numpy, torch, and matplotlib, so the notebooks run with zero setup on the free tier; every lesson through 0007 runs on a CPU, and later ones want a GPU.
+**On Google Colab.** Every lesson README carries an "Open in Colab" badge for its notebook. Colab preinstalls numpy, torch, and matplotlib, so the notebooks run with zero setup on the free tier; every lesson through 0008 runs on a CPU, and later ones want a GPU.
 
-**On a real GPU box.** Same scripts. Lessons 0001 through 0007 will not require the GPU and that is deliberate, the algorithm is hardware-blind and you should see that with your own eyes. From 0007 the models are big enough that a GPU speeds them up, and 0009 and 0010 are specifically about measuring one.
+**On a real GPU box.** Same scripts. Lessons 0001 through 0008 will not require the GPU and that is deliberate, the algorithm is hardware-blind and you should see that with your own eyes. From 0007 the models are big enough that a GPU speeds them up, and 0009 and 0010 are specifically about measuring one.
 
 ## The Go library
 
