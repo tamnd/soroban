@@ -26,6 +26,7 @@ var lessons = []lesson{
 	{"0004", "autograd from scratch", lesson0004},
 	{"0005", "language as counting, a bigram model", lesson0005},
 	{"0006", "embeddings, the neural bigram learns the table", lesson0006},
+	{"0007", "attention, looking further back than one token", lesson0007},
 }
 
 func main() {
