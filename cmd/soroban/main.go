@@ -29,6 +29,7 @@ var lessons = []lesson{
 	{"0007", "attention, looking further back than one token", lesson0007},
 	{"0008", "the training loop as instrument, overfitting as a gap", lesson0008},
 	{"0009", "the FLOPs ledger, 6ND and the 4090's MFU", lesson0009},
+	{"0010", "fine-tuning arithmetic, LoRA and QLoRA on one 4090", lesson0010},
 }
 
 func main() {
